@@ -14,36 +14,42 @@ import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AIBubble } from '@/components/AIBubble';
-import { AI_RESPONSES } from '@/constants/demoData';
 import { ChatMessage, useApp } from '@/context/AppContext';
 import { useColors } from '@/hooks/useColors';
 
 const QUICK_ACTIONS = [
-  { label: 'Current AQI', key: 'aqi' },
-  { label: 'Best outdoor time', key: 'outdoor' },
-  { label: 'Magnetic storm', key: 'magnetic' },
-  { label: 'Dust storm update', key: 'dust' },
-  { label: 'Health advisory', key: 'health' },
-  { label: 'Aral Sea crisis', key: 'aral' },
+  { label: 'Joriy AQI', key: 'aqi' },
+  { label: 'Eng yaxshi vaqt', key: 'outdoor' },
+  { label: 'Magnit bo\'roni', key: 'magnetic' },
+  { label: 'Chang bo\'roni', key: 'dust' },
+  { label: 'Sog\'liq maslahati', key: 'health' },
+  { label: 'Orol dengizi', key: 'aral' },
 ];
+
+const WELCOME_TEXT = "Assalomu alaykum! Men ZARA — Iqlimoy sun'iy yo'ldosh ekologiya monitoring tizimining AI yordamchisiman. Havo sifati, UV nurlanish, chang bo'ronlari, geomagnetik faollik va iqlim xavflari haqida yordam bera olaman. Nima so'ramoqchisiz?";
 
 function generateId(): string {
   return Date.now().toString() + Math.random().toString(36).substring(2, 9);
 }
 
-function getAIResponse(input: string): string {
-  const lower = input.toLowerCase();
-  if (lower.includes('hello') || lower.includes('hi') || lower.includes('salom')) return AI_RESPONSES.greeting;
-  if (lower.includes('aqi') || lower.includes('air quality') || lower.includes('pm2') || lower.includes('pm 2')) return AI_RESPONSES.aqi;
-  if (lower.includes('outdoor') || lower.includes('exercise') || lower.includes('walk') || lower.includes('run')) return AI_RESPONSES.outdoor;
-  if (lower.includes('magnetic') || lower.includes('geomagnetic') || lower.includes('storm') && lower.includes('magnet')) return AI_RESPONSES.magnetic;
-  if (lower.includes('dust') || lower.includes('sand') || lower.includes('wind')) return AI_RESPONSES.dust;
-  if (lower.includes('forecast') || lower.includes('week') || lower.includes('tomorrow')) return AI_RESPONSES.forecast;
-  if (lower.includes('b2b') || lower.includes('api') || lower.includes('business') || lower.includes('enterprise')) return AI_RESPONSES.b2b;
-  if (lower.includes('construct') || lower.includes('build') || lower.includes('crane') || lower.includes('work')) return AI_RESPONSES.construction;
-  if (lower.includes('health') || lower.includes('sick') || lower.includes('asthma') || lower.includes('lungs')) return AI_RESPONSES.health;
-  if (lower.includes('aral') || lower.includes('sea') || lower.includes('toxic') || lower.includes('karakalpak')) return AI_RESPONSES.aral;
-  return AI_RESPONSES.default;
+const BASE_URL = process.env.EXPO_PUBLIC_DOMAIN
+  ? `https://${process.env.EXPO_PUBLIC_DOMAIN}`
+  : '';
+
+async function callGeminiAPI(
+  history: { role: 'user' | 'model'; text: string }[]
+): Promise<string> {
+  const res = await fetch(`${BASE_URL}/api/chat`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ messages: history }),
+  });
+  if (!res.ok) {
+    throw new Error(`Server xatosi: ${res.status}`);
+  }
+  const data = await res.json() as { text?: string; error?: string };
+  if (data.error) throw new Error(data.error);
+  return data.text ?? '';
 }
 
 export default function AssistantScreen() {
@@ -54,20 +60,33 @@ export default function AssistantScreen() {
   const { chatMessages, addMessage, clearChat } = useApp();
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const flatListRef = useRef<FlatList>(null);
 
   const welcomeMessage: ChatMessage = {
     id: 'welcome',
-    text: AI_RESPONSES.default,
+    text: WELCOME_TEXT,
     isUser: false,
     timestamp: new Date(Date.now() - 60000),
   };
 
-  const allMessages = chatMessages.length === 0 ? [welcomeMessage] : [welcomeMessage, ...chatMessages];
+  const allMessages = chatMessages.length === 0
+    ? [welcomeMessage]
+    : [welcomeMessage, ...chatMessages];
 
-  function sendMessage(text: string) {
+  function buildHistory(userText: string): { role: 'user' | 'model'; text: string }[] {
+    const history = chatMessages.map((m) => ({
+      role: m.isUser ? ('user' as const) : ('model' as const),
+      text: m.text,
+    }));
+    history.push({ role: 'user', text: userText });
+    return history;
+  }
+
+  async function sendMessage(text: string) {
     if (!text.trim() || isTyping) return;
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    setError(null);
 
     const userMsg: ChatMessage = {
       id: generateId(),
@@ -79,17 +98,21 @@ export default function AssistantScreen() {
     setInputText('');
     setIsTyping(true);
 
-    const delay = 800 + Math.random() * 600;
-    setTimeout(() => {
+    try {
+      const history = buildHistory(text.trim());
+      const aiText = await callGeminiAPI(history);
       const aiMsg: ChatMessage = {
         id: generateId(),
-        text: getAIResponse(text),
+        text: aiText,
         isUser: false,
         timestamp: new Date(),
       };
       addMessage(aiMsg);
+    } catch (err: any) {
+      setError("Javob olishda xatolik yuz berdi. Qayta urinib ko'ring.");
+    } finally {
       setIsTyping(false);
-    }, delay);
+    }
   }
 
   return (
@@ -106,13 +129,13 @@ export default function AssistantScreen() {
           </View>
           <View>
             <Text style={[styles.botName, { color: colors.foreground }]}>ZARA</Text>
-            <Text style={[styles.botDesc, { color: colors.good }]}>
-              {isTyping ? 'Analyzing satellite data...' : 'AI Environmental Assistant'}
+            <Text style={[styles.botDesc, { color: isTyping ? colors.moderate : colors.good }]}>
+              {isTyping ? 'Sun\'iy yo\'ldosh ma\'lumotlari tahlil qilinmoqda...' : 'AI Ekologiya Yordamchisi · Gemini'}
             </Text>
           </View>
         </View>
         <TouchableOpacity
-          onPress={() => { clearChat(); Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium); }}
+          onPress={() => { clearChat(); setError(null); Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium); }}
           style={[styles.clearBtn, { backgroundColor: colors.secondary }]}
         >
           <Feather name="refresh-ccw" size={14} color={colors.mutedForeground} />
@@ -121,7 +144,7 @@ export default function AssistantScreen() {
 
       {chatMessages.length === 0 && (
         <View style={styles.quickActions}>
-          <Text style={[styles.quickLabel, { color: colors.mutedForeground }]}>Quick questions</Text>
+          <Text style={[styles.quickLabel, { color: colors.mutedForeground }]}>Tezkor savollar</Text>
           <View style={styles.quickGrid}>
             {QUICK_ACTIONS.map((qa) => (
               <TouchableOpacity
@@ -158,6 +181,11 @@ export default function AssistantScreen() {
                 </View>
               </View>
             </View>
+          ) : error ? (
+            <View style={[styles.errorBubble, { backgroundColor: colors.veryUnhealthy + '18', borderColor: colors.veryUnhealthy + '40' }]}>
+              <Feather name="alert-circle" size={14} color={colors.veryUnhealthy} />
+              <Text style={[styles.errorText, { color: colors.veryUnhealthy }]}>{error}</Text>
+            </View>
           ) : null
         }
       />
@@ -165,7 +193,7 @@ export default function AssistantScreen() {
       <View style={[styles.inputBar, { borderTopColor: colors.border, backgroundColor: colors.background, paddingBottom: Math.max(bottomPad, 12) }]}>
         <TextInput
           style={[styles.input, { backgroundColor: colors.card, borderColor: colors.border, color: colors.foreground }]}
-          placeholder="Ask about air quality, UV, dust storms..."
+          placeholder="Havo sifati, UV, chang bo'roni haqida so'rang..."
           placeholderTextColor={colors.mutedForeground}
           value={inputText}
           onChangeText={setInputText}
@@ -174,11 +202,11 @@ export default function AssistantScreen() {
           multiline={false}
         />
         <TouchableOpacity
-          style={[styles.sendBtn, { backgroundColor: inputText.trim() ? colors.primary : colors.secondary }]}
+          style={[styles.sendBtn, { backgroundColor: inputText.trim() && !isTyping ? colors.primary : colors.secondary }]}
           onPress={() => sendMessage(inputText)}
           disabled={!inputText.trim() || isTyping}
         >
-          <Feather name="send" size={16} color={inputText.trim() ? colors.background : colors.mutedForeground} />
+          <Feather name="send" size={16} color={inputText.trim() && !isTyping ? colors.background : colors.mutedForeground} />
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
@@ -195,11 +223,7 @@ const styles = StyleSheet.create({
     paddingBottom: 14,
     borderBottomWidth: 1,
   },
-  headerLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
+  headerLeft: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   avatar: {
     width: 40,
     height: 40,
@@ -208,10 +232,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  avatarText: {
-    fontFamily: 'Inter_700Bold',
-    fontSize: 16,
-  },
+  avatarText: { fontFamily: 'Inter_700Bold', fontSize: 16 },
   onlineDot: {
     position: 'absolute',
     bottom: 1,
@@ -222,16 +243,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#0A0F1E',
   },
-  botName: {
-    fontFamily: 'Inter_700Bold',
-    fontSize: 16,
-    letterSpacing: 1,
-  },
-  botDesc: {
-    fontFamily: 'Inter_400Regular',
-    fontSize: 12,
-    marginTop: 2,
-  },
+  botName: { fontFamily: 'Inter_700Bold', fontSize: 16, letterSpacing: 1 },
+  botDesc: { fontFamily: 'Inter_400Regular', fontSize: 12, marginTop: 2 },
   clearBtn: {
     width: 34,
     height: 34,
@@ -239,38 +252,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  quickActions: {
-    padding: 16,
-    gap: 10,
-  },
-  quickLabel: {
-    fontFamily: 'Inter_500Medium',
-    fontSize: 12,
-  },
-  quickGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-  },
+  quickActions: { padding: 16, gap: 10 },
+  quickLabel: { fontFamily: 'Inter_500Medium', fontSize: 12 },
+  quickGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   quickBtn: {
     paddingHorizontal: 14,
     paddingVertical: 8,
     borderRadius: 20,
     borderWidth: 1,
   },
-  quickText: {
-    fontFamily: 'Inter_500Medium',
-    fontSize: 13,
-  },
-  messages: {
-    padding: 16,
-    gap: 14,
-  },
-  typingRow: {
-    flexDirection: 'row',
-    gap: 10,
-    paddingTop: 14,
-  },
+  quickText: { fontFamily: 'Inter_500Medium', fontSize: 13 },
+  messages: { padding: 16, gap: 14 },
+  typingRow: { flexDirection: 'row', gap: 10, paddingTop: 14 },
   typingAvatar: {
     width: 32,
     height: 32,
@@ -279,10 +272,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexShrink: 0,
   },
-  typingAvatarText: {
-    fontFamily: 'Inter_700Bold',
-    fontSize: 14,
-  },
+  typingAvatarText: { fontFamily: 'Inter_700Bold', fontSize: 14 },
   typingBubble: {
     borderRadius: 18,
     borderTopLeftRadius: 4,
@@ -290,17 +280,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
   },
-  typingDots: {
+  typingDots: { flexDirection: 'row', gap: 4, alignItems: 'center' },
+  dot: { width: 7, height: 7, borderRadius: 3.5, opacity: 0.7 },
+  errorBubble: {
     flexDirection: 'row',
-    gap: 4,
     alignItems: 'center',
+    gap: 8,
+    marginTop: 14,
+    padding: 12,
+    borderRadius: 12,
+    borderWidth: 1,
   },
-  dot: {
-    width: 7,
-    height: 7,
-    borderRadius: 3.5,
-    opacity: 0.7,
-  },
+  errorText: { fontFamily: 'Inter_400Regular', fontSize: 13, flex: 1 },
   inputBar: {
     flexDirection: 'row',
     paddingHorizontal: 16,

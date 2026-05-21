@@ -33,7 +33,7 @@ export default function MapScreen() {
         <Text style={[styles.title, { color: colors.foreground }]}>Ekologik Xarita</Text>
         <View style={[styles.satBadge, { backgroundColor: colors.primary + '15' }]}>
           <Feather name="radio" size={10} color={colors.primary} />
-          <Text style={[styles.satText, { color: colors.primary }]}>SATELLITE</Text>
+          <Text style={[styles.satText, { color: colors.primary }]}>SUN'IY YO'LDOSH</Text>
         </View>
       </View>
 
@@ -45,7 +45,7 @@ export default function MapScreen() {
           }}
         />
 
-        <Text style={[styles.sectionTitle, { color: colors.mutedForeground }]}>CITIES BY AIR QUALITY</Text>
+        <Text style={[styles.sectionTitle, { color: colors.mutedForeground }]}>HAVO SIFATI BO'YICHA SHAHARLAR</Text>
 
         <View style={styles.cityList}>
           {sortedCities.map((city, idx) => {
@@ -86,14 +86,14 @@ export default function MapScreen() {
         <View style={[styles.infoCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
           <View style={styles.infoHeader}>
             <Feather name="info" size={14} color={colors.accent} />
-            <Text style={[styles.infoTitle, { color: colors.foreground }]}>Data Sources</Text>
+            <Text style={[styles.infoTitle, { color: colors.foreground }]}>Ma'lumot Manbalari</Text>
           </View>
           <Text style={[styles.infoText, { color: colors.mutedForeground }]}>
-            Environmental data sourced from Iqlimoy's network of ground stations and integrated with
-            ESA Sentinel-5P satellite observations. Updated every 30 minutes.
+            Ekologik ma'lumotlar Iqlimoy yer stantsiyalari tarmog'i va ESA Sentinel-5P sun'iy yo'ldosh
+            kuzatuvlaridan olinadi. Har 30 daqiqada yangilanadi.
           </Text>
           <View style={styles.sourceRow}>
-            {['Sentinel-5P', 'Ground Stations', 'NASA FIRMS', 'NOAA'].map((s) => (
+            {['Sentinel-5P', 'Yer Stantsiyalari', 'NASA FIRMS', 'NOAA'].map((s) => (
               <View key={s} style={[styles.sourcePill, { backgroundColor: colors.secondary, borderColor: colors.border }]}>
                 <Text style={[styles.sourceText, { color: colors.mutedForeground }]}>{s}</Text>
               </View>

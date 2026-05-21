@@ -72,18 +72,6 @@ export function getAQILevel(aqi: number): AQILevel {
 export function getAQILabel(aqi: number): string {
   const level = getAQILevel(aqi);
   const labels: Record<AQILevel, string> = {
-    good: 'Good',
-    moderate: 'Moderate',
-    unhealthy: 'Unhealthy',
-    veryUnhealthy: 'Very Unhealthy',
-    hazardous: 'Hazardous',
-  };
-  return labels[level];
-}
-
-export function getAQILabelUz(aqi: number): string {
-  const level = getAQILevel(aqi);
-  const labels: Record<AQILevel, string> = {
     good: 'Yaxshi',
     moderate: "O'rtacha",
     unhealthy: 'Zararli',
@@ -91,6 +79,10 @@ export function getAQILabelUz(aqi: number): string {
     hazardous: 'Xavfli',
   };
   return labels[level];
+}
+
+export function getAQILabelUz(aqi: number): string {
+  return getAQILabel(aqi);
 }
 
 export const CITIES: CityData[] = [
@@ -109,7 +101,7 @@ export const CITIES: CityData[] = [
     dustRisk: 35,
     solarRadiation: 420,
     magneticField: 'disturbed',
-    conditions: 'Partly Cloudy',
+    conditions: 'Qisman bulutli',
   },
   {
     id: 'samarqand',
@@ -126,7 +118,7 @@ export const CITIES: CityData[] = [
     dustRisk: 15,
     solarRadiation: 510,
     magneticField: 'normal',
-    conditions: 'Clear Sky',
+    conditions: 'Toza havo',
   },
   {
     id: 'buxoro',
@@ -143,7 +135,7 @@ export const CITIES: CityData[] = [
     dustRisk: 82,
     solarRadiation: 620,
     magneticField: 'normal',
-    conditions: 'Dust Storm',
+    conditions: 'Chang bo\'roni',
   },
   {
     id: 'namangan',
@@ -160,7 +152,7 @@ export const CITIES: CityData[] = [
     dustRisk: 20,
     solarRadiation: 380,
     magneticField: 'normal',
-    conditions: 'Mostly Clear',
+    conditions: 'Asosan toza',
   },
   {
     id: 'andijon',
@@ -177,7 +169,7 @@ export const CITIES: CityData[] = [
     dustRisk: 25,
     solarRadiation: 395,
     magneticField: 'normal',
-    conditions: 'Partly Cloudy',
+    conditions: 'Qisman bulutli',
   },
   {
     id: 'qarshi',
@@ -194,7 +186,7 @@ export const CITIES: CityData[] = [
     dustRisk: 68,
     solarRadiation: 580,
     magneticField: 'normal',
-    conditions: 'Hazy',
+    conditions: 'Tumanli',
   },
   {
     id: 'nukus',
@@ -211,7 +203,7 @@ export const CITIES: CityData[] = [
     dustRisk: 96,
     solarRadiation: 680,
     magneticField: 'storm',
-    conditions: 'Severe Dust',
+    conditions: 'Og\'ir chang',
   },
   {
     id: 'fargona',
@@ -228,7 +220,7 @@ export const CITIES: CityData[] = [
     dustRisk: 18,
     solarRadiation: 360,
     magneticField: 'normal',
-    conditions: 'Clear Sky',
+    conditions: 'Toza havo',
   },
 ];
 
@@ -236,10 +228,10 @@ export const ALERTS: AlertData[] = [
   {
     id: 'a1',
     type: 'dust',
-    title: 'Severe Dust Storm Warning',
+    title: "Kuchli chang bo'roni",
     titleUz: "Kuchli chang bo'roni",
     description:
-      'A severe dust storm from the Karakum Desert is affecting Bukhara and Karshi regions. Visibility below 500m. PM10 at 14x safe levels. Suspend all outdoor activities.',
+      "Qoraqum cho'lidan kuchli chang bo'roni Buxoro va Qashqadaryo viloyatlarini qamrab olmoqda. Ko'rinish 500m dan kam. PM10 me'yordan 14 marta yuqori. Barcha tashqi ishlarni to'xtating.",
     regions: ['Buxoro', 'Qashqadaryo', "Qoraqalpog'iston"],
     severity: 'critical',
     status: 'active',
@@ -249,11 +241,11 @@ export const ALERTS: AlertData[] = [
   {
     id: 'a2',
     type: 'magnetic',
-    title: 'Geomagnetic Storm G2',
+    title: "Geomagnetik bo'ron G2",
     titleUz: "Geomagnetik bo'ron G2",
     description:
-      'A G2-class geomagnetic storm is in progress. GPS disruption likely. Radio communications affected. Sensitive individuals may experience headaches and fatigue.',
-    regions: ['All Central Asia'],
+      "G2 darajasidagi geomagnetik bo'ron davom etmoqda. GPS ishlashida buzilishlar kuzatilishi mumkin. Radio aloqaga ta'sir ko'rsatadi. Sezgir odamlarda bosh og'rig'i va charchoq kuzatilishi mumkin.",
+    regions: ["Butun O'rta Osiyo"],
     severity: 'medium',
     status: 'active',
     timestamp: '2026-05-21T06:00:00',
@@ -262,10 +254,10 @@ export const ALERTS: AlertData[] = [
   {
     id: 'a3',
     type: 'uv',
-    title: 'Extreme UV Radiation',
+    title: 'Haddan tashqari UV nurlanish',
     titleUz: 'Haddan tashqari UV nurlanish',
     description:
-      'UV Index reaching 10–11 (Extreme) in Nukus and Karakalpakstan. Maximum sun protection required. Avoid outdoor exposure 10:00–16:00.',
+      "Nukus va Qoraqalpog'istonda UV indeksi 10–11 (Ekstremal) ga yetmoqda. Maksimal himoya talab qilinadi. Soat 10:00–16:00 da tashqarida qolmang.",
     regions: ["Qoraqalpog'iston", 'Xorazm'],
     severity: 'high',
     status: 'active',
@@ -275,10 +267,10 @@ export const ALERTS: AlertData[] = [
   {
     id: 'a4',
     type: 'smog',
-    title: 'Urban Smog Advisory',
-    titleUz: 'Shahar tutun ogohlantirishi',
+    title: 'Shahar tutuni ogohlantirishi',
+    titleUz: 'Shahar tutuni ogohlantirishi',
     description:
-      'Elevated PM2.5 levels in Tashkent due to reduced air circulation. Sensitive groups should limit outdoor exposure. Peaks expected 07:00–10:00.',
+      "Havo aylanishining kamayishi sababli Toshkentda PM2.5 darajasi ko'tarilgan. Sezgir guruhlar tashqi faoliyatni cheklashi kerak. Eng yuqori daraja soat 07:00–10:00 da kutilmoqda.",
     regions: ['Toshkent'],
     severity: 'low',
     status: 'monitoring',
@@ -288,10 +280,10 @@ export const ALERTS: AlertData[] = [
   {
     id: 'a5',
     type: 'heat',
-    title: 'Heat Wave Forecast',
+    title: "Issiqlik to'lqini",
     titleUz: "Issiqlik to'lqini",
     description:
-      'Temperatures expected to exceed 40°C in southern Uzbekistan over the next 3 days. High risk of heat stroke for outdoor workers. Mandatory hydration breaks.',
+      "Keyingi 3 kun davomida O'zbekistonning janubida harorat 40°C dan oshishi kutilmoqda. Tashqi ishchilar uchun issiqlik urishi xavfi yuqori. Majburiy suv ichish tanaffuslari.",
     regions: ['Surxondaryo', 'Qashqadaryo', 'Buxoro'],
     severity: 'medium',
     status: 'monitoring',
@@ -301,10 +293,10 @@ export const ALERTS: AlertData[] = [
   {
     id: 'a6',
     type: 'chemical',
-    title: 'Aral Sea Toxic Dust',
+    title: 'Orol dengizi zaharli changi',
     titleUz: 'Orol dengizi zaharli changi',
     description:
-      "Toxic dust from the dried Aral Sea containing pesticide residues detected in Karakalpakstan. Highly dangerous for respiratory health. N95 masks mandatory outdoors.",
+      "Qoraqalpog'istonda qurib qolgan Orol dengizi tubidan pestitsid qoldiqlari o'z ichiga olgan zaharli chang aniqlandi. Nafas olish salomatligi uchun juda xavfli. Tashqarida N95 niqob majburiy.",
     regions: ["Qoraqalpog'iston"],
     severity: 'critical',
     status: 'active',
@@ -314,13 +306,13 @@ export const ALERTS: AlertData[] = [
 ];
 
 export const FORECAST_7DAY: ForecastDay[] = [
-  { date: '2026-05-21', dayName: 'Today', tempMin: 18, tempMax: 30, aqi: 87, uvIndex: 5, precipChance: 10, conditions: 'Partly Cloudy', dustRisk: 35 },
-  { date: '2026-05-22', dayName: 'Thu', tempMin: 17, tempMax: 29, aqi: 72, uvIndex: 4, precipChance: 25, conditions: 'Mostly Cloudy', dustRisk: 28 },
-  { date: '2026-05-23', dayName: 'Fri', tempMin: 16, tempMax: 28, aqi: 55, uvIndex: 6, precipChance: 5, conditions: 'Clear Sky', dustRisk: 20 },
-  { date: '2026-05-24', dayName: 'Sat', tempMin: 19, tempMax: 32, aqi: 95, uvIndex: 7, precipChance: 0, conditions: 'Hazy', dustRisk: 45 },
-  { date: '2026-05-25', dayName: 'Sun', tempMin: 21, tempMax: 35, aqi: 110, uvIndex: 8, precipChance: 0, conditions: 'Hazy', dustRisk: 62 },
-  { date: '2026-05-26', dayName: 'Mon', tempMin: 22, tempMax: 34, aqi: 88, uvIndex: 7, precipChance: 5, conditions: 'Partly Cloudy', dustRisk: 38 },
-  { date: '2026-05-27', dayName: 'Tue', tempMin: 20, tempMax: 31, aqi: 65, uvIndex: 5, precipChance: 15, conditions: 'Mostly Cloudy', dustRisk: 25 },
+  { date: '2026-05-21', dayName: 'Bugun', tempMin: 18, tempMax: 30, aqi: 87, uvIndex: 5, precipChance: 10, conditions: 'Qisman bulutli', dustRisk: 35 },
+  { date: '2026-05-22', dayName: 'Psh', tempMin: 17, tempMax: 29, aqi: 72, uvIndex: 4, precipChance: 25, conditions: 'Asosan bulutli', dustRisk: 28 },
+  { date: '2026-05-23', dayName: 'Jum', tempMin: 16, tempMax: 28, aqi: 55, uvIndex: 6, precipChance: 5, conditions: 'Toza havo', dustRisk: 20 },
+  { date: '2026-05-24', dayName: 'Sha', tempMin: 19, tempMax: 32, aqi: 95, uvIndex: 7, precipChance: 0, conditions: 'Tumanli', dustRisk: 45 },
+  { date: '2026-05-25', dayName: 'Yak', tempMin: 21, tempMax: 35, aqi: 110, uvIndex: 8, precipChance: 0, conditions: 'Tumanli', dustRisk: 62 },
+  { date: '2026-05-26', dayName: 'Du', tempMin: 22, tempMax: 34, aqi: 88, uvIndex: 7, precipChance: 5, conditions: 'Qisman bulutli', dustRisk: 38 },
+  { date: '2026-05-27', dayName: 'Se', tempMin: 20, tempMax: 31, aqi: 65, uvIndex: 5, precipChance: 15, conditions: 'Asosan bulutli', dustRisk: 25 },
 ];
 
 export const HOURLY_FORECAST = [
@@ -335,25 +327,25 @@ export const HOURLY_FORECAST = [
 ];
 
 export const AI_RESPONSES: Record<string, string> = {
-  default: "I'm ZARA, your AI environmental assistant. I monitor air quality, UV radiation, dust storms, geomagnetic activity, and climate risks across Central Asia via satellite. What can I help you with?",
-  greeting: "Right now I'm tracking conditions across 8 major cities in Uzbekistan. Overall status: Moderate. There are 3 active alerts — a critical dust storm in Bukhara, a G2 geomagnetic storm affecting all of Central Asia, and extreme UV in Nukus.",
-  aqi: "Tashkent's current AQI is 87 (Moderate). PM2.5 is 32 μg/m³ — slightly above WHO guidelines of 25 μg/m³. I recommend limiting strenuous outdoor exercise today. The cleanest city right now is Samarkand with AQI 42 (Good).",
-  outdoor: "Best outdoor activity window today: 06:00–09:00 in Tashkent. AQI is typically 15–20% lower in early morning due to reduced traffic. UV Index is moderate (5), SPF 30+ recommended. Avoid Bukhara and Nukus entirely today — active dust storm and extreme UV warnings in effect.",
-  magnetic: "A G2-class geomagnetic storm is active across Central Asia. K-index is at 6 from my Aral Sea magnetometer cluster. Effects: GPS signal degradation, HF radio interference, minor power grid fluctuations. Sensitive individuals may experience headaches or fatigue. Expected resolution: 18–24 hours.",
-  dust: "The Bukhara dust storm originated from the Karakum Desert at ~03:45 UTC today. PM10 is at 142 μg/m³ — 14x above safe levels. Moving northeast at 18 km/h. Expected to reach Kashkadarya by evening. All construction sites in affected regions should suspend operations immediately.",
-  forecast: "7-day outlook for Tashkent: AQI improves to Good by Friday, then rises to Unhealthy this weekend as a high-pressure system from the south traps pollutants. Temperatures climb toward 35°C by Sunday. Best days to be outdoors: Friday and Saturday morning.",
-  b2b: "The Iqlimoy B2B API gives construction firms, agriculture operations, and event organizers real-time and forecast environmental data. Pro tier: 1,000 API calls/day with 6-hour forecast windows. Enterprise: custom satellite tasking, dedicated CSM, compliance reporting. Currently in beta — 12 enterprise clients onboarded.",
-  construction: "Construction risk for Tashkent today: LOW-MEDIUM. Wind: 12 km/h (safe for cranes up to 80m). UV: 5 (standard PPE). Dust risk: 35/100 (standard precautions). Temperature: 28°C (hydration breaks every 2 hours recommended). No weather stops required. Friday is the optimal window for concrete pours this week.",
-  health: "Health advisory based on current data: Asthma/COPD patients should avoid outdoor exposure in Bukhara, Karshi, and Nukus today. Healthy adults can exercise outdoors safely in Samarkand and Fergana. All outdoor workers in dust-affected regions: N95 masks mandatory. Magnetic storm may amplify respiratory symptoms.",
-  aral: "The Aral Sea crisis remains Central Asia's most severe environmental disaster. My satellite sensors show the dried seabed emitting toxic dust (pesticide residues, salt, heavy metals) across Karakalpakstan — contributing to the region's hazardous AQI of 201. Lung disease rates in Nukus are 3x the national average.",
+  default: "Assalomu alaykum! Men ZARA — Iqlimoy sun'iy yo'ldosh ekologiya monitoring tizimining AI yordamchisiman. Havo sifati, UV nurlanish, chang bo'ronlari, geomagnetik faollik va iqlim xavflari haqida yordam bera olaman. Nima so'ramoqchisiz?",
+  greeting: "Hozir men O'zbekistonning 8 ta shahrida sharoitni kuzatyapman. Umumiy holat: O'rtacha. 3 ta faol ogohlantirish mavjud — Buxorada kritik chang bo'roni, butun Markaziy Osiyoda G2 geomagnetik bo'ron, va Nukusda haddan tashqari UV nurlanish.",
+  aqi: "Toshkentning joriy AQI si 87 (O'rtacha). PM2.5 32 μg/m³ — JSSning 25 μg/m³ ko'rsatkichidan biroz yuqori. Bugun kuchli jismoniy mashq qilishni cheklashni tavsiya etaman. Hozir eng toza shahar — Samarqand, AQI 42 (Yaxshi).",
+  outdoor: "Toshkentda bugungi eng yaxshi tashqi faoliyat vaqti: 06:00–09:00. Ertalab havo ifloslanishi odatda 15–20% pastroq bo'ladi. UV indeksi o'rtacha (5), SPF 30+ tavsiya etiladi. Buxoro va Nukusdan bugun butunlay saqlaning — faol chang bo'roni va ekstremal UV ogohlantirishlari kuchda.",
+  magnetic: "G2 darajasidagi geomagnetik bo'ron butun Markaziy Osiyoda faol. K-indeksi 6 ga yetgan. Ta'siri: GPS signali buzilishi, qisqa to'lqinli radio interferensiyasi, kichik elektr tarmog'i tebranishlari. Sezgir odamlarda bosh og'rig'i yoki charchoq bo'lishi mumkin. Tugash vaqti: 18–24 soat ichida.",
+  dust: "Buxoro chang bo'roni bugun taxminan 03:45 UTC da Qoraqum cho'lidan boshlandi. PM10 142 μg/m³ — me'yordan 14 marta yuqori. Soatiga 18 km tezlik bilan shimoli-sharq tomon harakat qilmoqda. Kechqurun Qashqadaryo viloyatiga yetib borishi kutilmoqda. Ta'sirlangan hududlardagi barcha qurilish maydonlari darhol ishni to'xtatishi kerak.",
+  forecast: "Toshkent uchun 7 kunlik prognoz: AQI juma kuni Yaxshi darajaga yaxshilanadi, keyin janubdan keluvchi yuqori bosimli tizim ifloslantiruvchi moddalarni ushlab qolishi sababli dam olish kunlarida Zararli darajaga ko'tariladi. Harorat yakshanba kuni 35°C ga yaqinlashadi. Tashqarida bo'lish uchun eng yaxshi kunlar: juma va shanba ertalabi.",
+  b2b: "Iqlimoy B2B API qurilish kompaniyalari, qishloq xo'jaligi va tadbirlar tashkilotchilariga real vaqt va prognoz ekologik ma'lumotlarini beradi. Pro tarif: kuniga 10,000 API so'rovi, 6 soatlik prognoz. Enterprise: maxsus sun'iy yo'ldosh, shaxsiy menejer, SLA 99.9%. Hozirda beta bosqichida — 12 ta korporativ mijoz.",
+  construction: "Toshkent uchun bugungi qurilish xavfi: PAST-O'RTA. Shamol: 12 km/soat (80m gacha kranlarga xavfsiz). UV: 5 (standart himoya). Chang xavfi: 35/100 (standart ehtiyot choralari). Harorat: 28°C (har 2 soatda suv ichish tanaffuslari tavsiya etiladi). Ob-havo to'xtashi talab etilmaydi. Shu hafta beton quyish uchun optimal vaqt — juma.",
+  health: "Joriy ma'lumotlarga asoslangan sog'liq bo'yicha maslahat: Astma/COPD bemorlari bugun Buxoro, Qarshi va Nukusda tashqarida qolmasligi kerak. Sog'lom odamlar Samarqand va Farg'onada tashqarida mashq qila oladi. Chang ta'sirlangan hududlardagi barcha tashqi ishchilar: N95 niqob majburiy. Magnit bo'roni nafas olish simptomlarini kuchaytirishi mumkin.",
+  aral: "Orol dengizi inqirozi Markaziy Osiyoning eng og'ir ekologik falokatligicha qolmoqda. Sun'iy yo'ldosh sensorlarim qurib qolgan dengiz tubidan Qoraqalpog'iston bo'ylab zaharli changni (pestitsid qoldiqlari, tuz, og'ir metallar) tarqalayotganini ko'rsatmoqda — bu Nukusning AQI 201 (Xavfli) darajasiga hissa qo'shmoqda. Nukusdagi o'pka kasalliklari darajasi milliy o'rtacha ko'rsatkichdan 3 marta yuqori.",
 };
 
 export const PARTNERS: Partner[] = [
-  { id: 'p1', name: 'Oq Suv Café', category: 'Cafe & Dining', description: 'Air-purified indoor dining with HEPA filtration in Tashkent city center', discount: '15% off for Iqlimoy users', cleanAirScore: 95 },
-  { id: 'p2', name: 'Ecopark Chimyon', category: 'Nature & Recreation', description: 'Mountain resort at 1,600m elevation — consistently clean air away from city pollution', discount: 'Free entry on Good air quality days', cleanAirScore: 98 },
-  { id: 'p3', name: 'Wellness Hub UZ', category: 'Health & Fitness', description: 'Premium gym with HEPA-filtered air systems in Yunusabad district', discount: 'Daily pass: 20,000 vs 35,000 UZS', cleanAirScore: 92 },
-  { id: 'p4', name: 'Registan Tours', category: 'Tourism & Heritage', description: 'Early morning heritage tours when air is at its cleanest in Samarkand', discount: '10% off morning slots', cleanAirScore: 85 },
-  { id: 'p5', name: 'Silk Road Pharmacy', category: 'Health & Wellness', description: 'Anti-pollution skincare and respiratory health products delivered to your door', discount: '25% off N95 masks this week', cleanAirScore: 90 },
+  { id: 'p1', name: 'Oq Suv Kafe', category: 'Kafe va Restoran', description: 'Toshkent markazida HEPA filtrli toza havoli ichki muhit', discount: 'Iqlimoy foydalanuvchilari uchun 15% chegirma', cleanAirScore: 95 },
+  { id: 'p2', name: 'Ekopark Chimyon', category: 'Tabiat va Dam olish', description: '1600m balandlikdagi tog\' kurortida doimo toza havo', discount: 'Yaxshi havo sifati kunlarida kirish bepul', cleanAirScore: 98 },
+  { id: 'p3', name: 'Wellness Hub UZ', category: 'Sog\'liq va Fitnes', description: 'Yunusobodda HEPA filtrlangan havoli premium sport zali', cleanAirScore: 92, discount: 'Kunlik abonement: 20,000 vs 35,000 so\'m' },
+  { id: 'p4', name: 'Registon Tours', category: 'Turizm va Meros', description: 'Samarqandda havo eng toza paytda ertalabki meros sayohatlari', discount: 'Ertalabki sessiyalarda 10% chegirma', cleanAirScore: 85 },
+  { id: 'p5', name: 'Ipak Yo\'li Dorixonasi', category: 'Sog\'liq va Farovonlik', description: 'Ifloslantiruvchi moddalardan himoya kosmetikasi va nafas olish mahsulotlari', discount: 'Bu hafta N95 niqobda 25% chegirma', cleanAirScore: 90 },
 ];
 
 export const REGIONS_GRID: RegionData[] = [

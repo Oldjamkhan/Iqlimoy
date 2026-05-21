@@ -18,10 +18,10 @@ import { useColors } from '@/hooks/useColors';
 type FilterKey = 'all' | 'active' | 'monitoring' | 'resolved';
 
 const FILTERS: { key: FilterKey; label: string }[] = [
-  { key: 'all', label: 'All' },
-  { key: 'active', label: 'Active' },
-  { key: 'monitoring', label: 'Monitoring' },
-  { key: 'resolved', label: 'Resolved' },
+  { key: 'all', label: 'Barchasi' },
+  { key: 'active', label: 'Faol' },
+  { key: 'monitoring', label: 'Kuzatuv' },
+  { key: 'resolved', label: 'Tugallangan' },
 ];
 
 export default function AlertsScreen() {
@@ -29,6 +29,7 @@ export default function AlertsScreen() {
   const insets = useSafeAreaInsets();
   const topPad = Platform.OS === 'web' ? Math.max(insets.top, 67) : insets.top;
   const [filter, setFilter] = useState<FilterKey>('all');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [refreshing, setRefreshing] = useState(false);
 
   const filteredAlerts: AlertData[] =
@@ -49,15 +50,16 @@ export default function AlertsScreen() {
       <View style={[styles.header, { paddingTop: topPad + 12, backgroundColor: colors.background, borderBottomColor: colors.border }]}>
         <View style={styles.headerTop}>
           <Text style={[styles.title, { color: colors.foreground }]}>Ogohlantirishlar</Text>
+
           <View style={styles.countBadges}>
             {criticalCount > 0 && (
               <View style={[styles.countBadge, { backgroundColor: colors.hazardous + '20', borderColor: colors.hazardous + '40' }]}>
                 <View style={[styles.pulseDot, { backgroundColor: colors.hazardous }]} />
-                <Text style={[styles.countText, { color: colors.hazardous }]}>{criticalCount} CRITICAL</Text>
+                <Text style={[styles.countText, { color: colors.hazardous }]}>{criticalCount} KRITIK</Text>
               </View>
             )}
             <View style={[styles.countBadge, { backgroundColor: colors.veryUnhealthy + '20', borderColor: colors.veryUnhealthy + '40' }]}>
-              <Text style={[styles.countText, { color: colors.veryUnhealthy }]}>{activeCount} ACTIVE</Text>
+              <Text style={[styles.countText, { color: colors.veryUnhealthy }]}>{activeCount} FAOL</Text>
             </View>
           </View>
         </View>
@@ -102,9 +104,9 @@ export default function AlertsScreen() {
         ListEmptyComponent={
           <View style={styles.empty}>
             <Feather name="check-circle" size={40} color={colors.good} />
-            <Text style={[styles.emptyTitle, { color: colors.foreground }]}>No alerts</Text>
+            <Text style={[styles.emptyTitle, { color: colors.foreground }]}>Ogohlantirishlar yo'q</Text>
             <Text style={[styles.emptyText, { color: colors.mutedForeground }]}>
-              {filter === 'all' ? 'All clear across the region' : `No ${filter} alerts right now`}
+              {filter === 'all' ? 'Barcha hududlarda tinch' : `Hozir ${filter} ogohlantirishlar yo'q`}
             </Text>
           </View>
         }

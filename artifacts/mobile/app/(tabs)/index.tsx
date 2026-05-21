@@ -75,7 +75,7 @@ export default function HomeScreen() {
         <View style={styles.headerRow}>
           <View style={styles.locationWrap}>
             <Feather name="radio" size={12} color={colors.primary} />
-            <Text style={[styles.liveLabel, { color: colors.primary }]}>LIVE SATELLITE</Text>
+            <Text style={[styles.liveLabel, { color: colors.primary }]}>JONLI SUN'IY YO'LDOSH</Text>
           </View>
           <TouchableOpacity
             style={[styles.notifBtn, { backgroundColor: colors.card + 'AA' }]}
@@ -124,13 +124,13 @@ export default function HomeScreen() {
             <Text style={[styles.aqiLevel, { color: getAQIColor(level, colors) }]}>{getAQILabel(selectedCity.aqi)}</Text>
             <Text style={[styles.aqiCondition, { color: colors.foreground }]}>{selectedCity.conditions}</Text>
             <Text style={[styles.aqiTemp, { color: colors.mutedForeground }]}>
-              {selectedCity.temperature}°C · {selectedCity.humidity}% Humidity
+              {selectedCity.temperature}°C · {selectedCity.humidity}% Namlik
             </Text>
             {selectedCity.magneticField !== 'normal' && (
               <View style={[styles.magneticBadge, { backgroundColor: colors.hazardous + '30' }]}>
                 <Feather name="zap" size={10} color={colors.hazardous} />
                 <Text style={[styles.magneticText, { color: colors.hazardous }]}>
-                  Magnetic {selectedCity.magneticField === 'storm' ? 'Storm' : 'Disturbance'}
+                  Magnit {selectedCity.magneticField === 'storm' ? "Bo'roni" : 'Buzilishi'}
                 </Text>
               </View>
             )}
@@ -146,25 +146,25 @@ export default function HomeScreen() {
           >
             <View style={[styles.alertDot, { backgroundColor: colors.veryUnhealthy }]} />
             <Text style={[styles.alertBannerText, { color: colors.veryUnhealthy }]}>
-              {activeAlerts.length} Active Alert{activeAlerts.length > 1 ? 's' : ''} — {activeAlerts[0].title}
+              {activeAlerts.length} ta faol ogohlantirish — {activeAlerts[0].titleUz}
             </Text>
             <Feather name="chevron-right" size={14} color={colors.veryUnhealthy} />
           </TouchableOpacity>
         )}
 
-        <Text style={[styles.sectionTitle, { color: colors.mutedForeground }]}>CURRENT CONDITIONS</Text>
+        <Text style={[styles.sectionTitle, { color: colors.mutedForeground }]}>JORIY HOLAT</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.metricsScroll}>
           <MetricCard label="PM2.5" value={selectedCity.pm25} unit="μg/m³" iconName="wind" accentColor={getPM25Color(selectedCity.pm25, colors)} trend="stable" />
           <MetricCard label="PM10" value={selectedCity.pm10} unit="μg/m³" iconName="cloud" accentColor={colors.moderate} trend="up" />
-          <MetricCard label="UV Index" value={selectedCity.uvIndex} unit="" iconName="sun" accentColor={getUVColor(selectedCity.uvIndex, colors)} subLabel={getUVLabel(selectedCity.uvIndex)} />
-          <MetricCard label="Temperature" value={selectedCity.temperature} unit="°C" iconName="thermometer" accentColor={colors.unhealthy} trend="up" />
-          <MetricCard label="Humidity" value={selectedCity.humidity} unit="%" iconName="droplet" accentColor={colors.accent} />
-          <MetricCard label="Wind" value={selectedCity.windSpeed} unit="km/h" iconName="wind" accentColor={colors.foreground} />
-          <MetricCard label="Dust Risk" value={selectedCity.dustRisk} unit="/100" iconName="alert-triangle" accentColor={getDustColor(selectedCity.dustRisk, colors)} subLabel={getDustLabel(selectedCity.dustRisk)} />
-          <MetricCard label="Solar Rad." value={selectedCity.solarRadiation} unit="W/m²" iconName="sun" accentColor={colors.moderate} />
+          <MetricCard label="UV Indeks" value={selectedCity.uvIndex} unit="" iconName="sun" accentColor={getUVColor(selectedCity.uvIndex, colors)} subLabel={getUVLabel(selectedCity.uvIndex)} />
+          <MetricCard label="Harorat" value={selectedCity.temperature} unit="°C" iconName="thermometer" accentColor={colors.unhealthy} trend="up" />
+          <MetricCard label="Namlik" value={selectedCity.humidity} unit="%" iconName="droplet" accentColor={colors.accent} />
+          <MetricCard label="Shamol" value={selectedCity.windSpeed} unit="km/h" iconName="wind" accentColor={colors.foreground} />
+          <MetricCard label="Chang Xavfi" value={selectedCity.dustRisk} unit="/100" iconName="alert-triangle" accentColor={getDustColor(selectedCity.dustRisk, colors)} subLabel={getDustLabel(selectedCity.dustRisk)} />
+          <MetricCard label="Quyosh Nur." value={selectedCity.solarRadiation} unit="W/m²" iconName="sun" accentColor={colors.moderate} />
         </ScrollView>
 
-        <Text style={[styles.sectionTitle, { color: colors.mutedForeground }]}>TODAY'S FORECAST</Text>
+        <Text style={[styles.sectionTitle, { color: colors.mutedForeground }]}>BUGUNGI PROGNOZ</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.hourlyScroll}>
           {HOURLY_FORECAST.map((h) => (
             <View key={h.hour} style={[styles.hourlyCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
@@ -178,15 +178,15 @@ export default function HomeScreen() {
           ))}
         </ScrollView>
 
-        <Text style={[styles.sectionTitle, { color: colors.mutedForeground }]}>RECOMMENDATIONS</Text>
+        <Text style={[styles.sectionTitle, { color: colors.mutedForeground }]}>TAVSIYALAR</Text>
         <View style={[styles.recCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
           <View style={styles.recRow}>
             <View style={[styles.recIcon, { backgroundColor: colors.good + '20' }]}>
               <Feather name="activity" size={16} color={colors.good} />
             </View>
             <View style={styles.recText}>
-              <Text style={[styles.recTitle, { color: colors.foreground }]}>Best Outdoor Window</Text>
-              <Text style={[styles.recDesc, { color: colors.mutedForeground }]}>06:00–09:00 — Morning hours have lowest pollution</Text>
+              <Text style={[styles.recTitle, { color: colors.foreground }]}>Eng Yaxshi Tashqi Vaqt</Text>
+              <Text style={[styles.recDesc, { color: colors.mutedForeground }]}>06:00–09:00 — Ertalab havo ifloslanishi eng past</Text>
             </View>
           </View>
           <View style={[styles.divider, { backgroundColor: colors.border }]} />
@@ -195,9 +195,9 @@ export default function HomeScreen() {
               <Feather name="shield" size={16} color={colors.moderate} />
             </View>
             <View style={styles.recText}>
-              <Text style={[styles.recTitle, { color: colors.foreground }]}>Health Advisory</Text>
+              <Text style={[styles.recTitle, { color: colors.foreground }]}>Sog'liq Maslahati</Text>
               <Text style={[styles.recDesc, { color: colors.mutedForeground }]}>
-                {selectedCity.aqi > 100 ? 'Sensitive groups should avoid outdoor exposure today' : 'Air quality acceptable — exercise with standard precautions'}
+                {selectedCity.aqi > 100 ? 'Sezgir guruhlar bugun tashqarida qolmasligi kerak' : 'Havo sifati qoniqarli — standart ehtiyot bilan mashq qiling'}
               </Text>
             </View>
           </View>
@@ -207,8 +207,8 @@ export default function HomeScreen() {
               <Feather name="map-pin" size={16} color={colors.accent} />
             </View>
             <View style={styles.recText}>
-              <Text style={[styles.recTitle, { color: colors.foreground }]}>Cleanest City Today</Text>
-              <Text style={[styles.recDesc, { color: colors.mutedForeground }]}>Samarqand — AQI 42 (Good) · 298 km away</Text>
+              <Text style={[styles.recTitle, { color: colors.foreground }]}>Bugungi Eng Toza Shahar</Text>
+              <Text style={[styles.recDesc, { color: colors.mutedForeground }]}>Samarqand — AQI 42 (Yaxshi) · 298 km uzoqlikda</Text>
             </View>
           </View>
         </View>
@@ -217,13 +217,13 @@ export default function HomeScreen() {
           style={[styles.forecastBtn, { backgroundColor: colors.card, borderColor: colors.border }]}
           onPress={() => router.push('/forecast' as any)}
         >
-          <Text style={[styles.forecastBtnText, { color: colors.foreground }]}>7-Day Environmental Forecast</Text>
+          <Text style={[styles.forecastBtnText, { color: colors.foreground }]}>7 Kunlik Ekologik Prognoz</Text>
           <Feather name="chevron-right" size={16} color={colors.mutedForeground} />
         </TouchableOpacity>
 
         <View style={[styles.demoTag, { backgroundColor: colors.primary + '15', borderColor: colors.primary + '30' }]}>
           <Feather name="radio" size={10} color={colors.primary} />
-          <Text style={[styles.demoText, { color: colors.primary }]}>DEMO MODE — Simulated satellite data for Uzbekistan</Text>
+          <Text style={[styles.demoText, { color: colors.primary }]}>DEMO REJIM — O'zbekiston uchun sun'iy yo'ldosh ma'lumotlari</Text>
         </View>
       </View>
     </ScrollView>
@@ -256,11 +256,11 @@ function getUVColor(val: number, colors: ReturnType<typeof useColors>): string {
 }
 
 function getUVLabel(val: number): string {
-  if (val <= 2) return 'Low';
-  if (val <= 5) return 'Moderate';
-  if (val <= 7) return 'High';
-  if (val <= 10) return 'Very High';
-  return 'Extreme';
+  if (val <= 2) return 'Past';
+  if (val <= 5) return "O'rtacha";
+  if (val <= 7) return 'Yuqori';
+  if (val <= 10) return 'Juda Yuqori';
+  return 'Ekstremal';
 }
 
 function getDustColor(val: number, colors: ReturnType<typeof useColors>): string {
@@ -271,10 +271,10 @@ function getDustColor(val: number, colors: ReturnType<typeof useColors>): string
 }
 
 function getDustLabel(val: number): string {
-  if (val <= 25) return 'Low';
-  if (val <= 50) return 'Moderate';
-  if (val <= 75) return 'High';
-  return 'Severe';
+  if (val <= 25) return 'Past';
+  if (val <= 50) return "O'rtacha";
+  if (val <= 75) return 'Yuqori';
+  return 'Og\'ir';
 }
 
 const styles = StyleSheet.create({

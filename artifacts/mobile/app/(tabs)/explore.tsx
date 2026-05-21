@@ -39,7 +39,7 @@ export default function ExploreScreen() {
         <View style={[styles.activityCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
           <View style={styles.activityHeader}>
             <View>
-              <Text style={[styles.activityTitle, { color: colors.foreground }]}>Today's Outdoor Score</Text>
+              <Text style={[styles.activityTitle, { color: colors.foreground }]}>Bugungi Tashqi Faoliyat Bali</Text>
               <Text style={[styles.activityCity, { color: colors.mutedForeground }]}>{selectedCity.nameUz}</Text>
             </View>
             <View style={[styles.scoreCircle, { borderColor: scoreColor }]}>
@@ -61,10 +61,10 @@ export default function ExploreScreen() {
 
           <Text style={[styles.activityRec, { color: colors.mutedForeground }]}>
             {activityScore >= 70
-              ? 'Good conditions for outdoor activities. Morning hours are optimal.'
+              ? 'Tashqi faoliyat uchun qulay sharoit. Ertalabki soatlar optimal.'
               : activityScore >= 40
-                ? 'Moderate conditions. Limit strenuous activities and wear sun protection.'
-                : 'Poor conditions today. Prefer indoor activities or travel to a cleaner region.'}
+                ? "O'rtacha sharoit. Og'ir jismoniy mashqlarni cheklang va quyosh himoyasidan foydalaning."
+                : "Bugun yomon sharoit. Ichki mashg'ulotlarni afzal ko'ring yoki toza havo bor shaharga boring."}
           </Text>
         </View>
 
@@ -78,7 +78,7 @@ export default function ExploreScreen() {
               <Feather name="code" size={20} color={colors.accent} />
             </View>
             <Text style={[styles.actionTitle, { color: colors.foreground }]}>B2B API</Text>
-            <Text style={[styles.actionDesc, { color: colors.mutedForeground }]}>Environmental data for businesses</Text>
+            <Text style={[styles.actionDesc, { color: colors.mutedForeground }]}>Bizneslar uchun ekologik ma'lumotlar</Text>
             <View style={[styles.betaBadge, { backgroundColor: colors.accent + '20' }]}>
               <Text style={[styles.betaText, { color: colors.accent }]}>BETA</Text>
             </View>
@@ -92,8 +92,8 @@ export default function ExploreScreen() {
             <View style={[styles.actionIcon, { backgroundColor: colors.moderate + '20' }]}>
               <Feather name="tool" size={20} color={colors.moderate} />
             </View>
-            <Text style={[styles.actionTitle, { color: colors.foreground }]}>Construction</Text>
-            <Text style={[styles.actionDesc, { color: colors.mutedForeground }]}>Climate analytics for projects</Text>
+            <Text style={[styles.actionTitle, { color: colors.foreground }]}>Qurilish</Text>
+            <Text style={[styles.actionDesc, { color: colors.mutedForeground }]}>Loyihalar uchun iqlim tahlili</Text>
             <View style={[styles.betaBadge, { backgroundColor: colors.moderate + '20' }]}>
               <Text style={[styles.betaText, { color: colors.moderate }]}>PRO</Text>
             </View>
@@ -102,9 +102,9 @@ export default function ExploreScreen() {
 
         <View style={[styles.sponsorBanner, { backgroundColor: colors.primary + '12', borderColor: colors.primary + '30' }]}>
           <View style={styles.sponsorLeft}>
-            <Text style={[styles.sponsorTag, { color: colors.primary }]}>PARTNER SPOTLIGHT</Text>
-            <Text style={[styles.sponsorTitle, { color: colors.foreground }]}>Ecopark Chimyon</Text>
-            <Text style={[styles.sponsorDesc, { color: colors.mutedForeground }]}>Escape the city — AQI 12, Mountain fresh air, 1,600m elevation</Text>
+            <Text style={[styles.sponsorTag, { color: colors.primary }]}>HAMKOR TAVSIYASI</Text>
+            <Text style={[styles.sponsorTitle, { color: colors.foreground }]}>Ekopark Chimyon</Text>
+            <Text style={[styles.sponsorDesc, { color: colors.mutedForeground }]}>Shahardan qoching — AQI 12, Tog' havosi, 1,600m balandlik</Text>
           </View>
           <View style={[styles.sponsorAqi, { borderColor: colors.good + '60' }]}>
             <Text style={[styles.sponsorAqiNum, { color: colors.good }]}>12</Text>
@@ -112,7 +112,7 @@ export default function ExploreScreen() {
           </View>
         </View>
 
-        <Text style={[styles.sectionTitle, { color: colors.mutedForeground }]}>CLEAN AIR PARTNERS</Text>
+        <Text style={[styles.sectionTitle, { color: colors.mutedForeground }]}>TOZA HAVO HAMKORLARI</Text>
         <View style={styles.partnerList}>
           {PARTNERS.map((p) => (
             <PartnerCard key={p.id} partner={p} />
@@ -122,19 +122,20 @@ export default function ExploreScreen() {
         <View style={[styles.pitchCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
           <View style={styles.pitchHeader}>
             <Feather name="globe" size={20} color={colors.primary} />
-            <Text style={[styles.pitchTitle, { color: colors.foreground }]}>About Iqlimoy</Text>
+            <Text style={[styles.pitchTitle, { color: colors.foreground }]}>Iqlimoy haqida</Text>
           </View>
           <Text style={[styles.pitchText, { color: colors.mutedForeground }]}>
-            Iqlimoy ("Climate" in Uzbek) is Central Asia's first AI-powered satellite environmental monitoring platform.
-            We combine ESA Sentinel-5P satellite data with ground station networks to provide real-time air quality,
-            UV radiation, dust storm tracking, and geomagnetic activity monitoring for 8+ cities in Uzbekistan.
+            Iqlimoy — Markaziy Osiyoning birinchi AI asosidagi sun'iy yo'ldosh ekologik monitoring platformasi.
+            Biz ESA Sentinel-5P sun'iy yo'ldosh ma'lumotlarini yer stantsiyalari tarmog'i bilan birlashtirib,
+            O'zbekistonning 8+ shahrida real vaqtdagi havo sifati, UV nurlanish, chang bo'roni va geomagnetik
+            faollikni kuzatamiz.
           </Text>
           <View style={styles.statRow}>
             {[
-              { num: '8+', label: 'Cities' },
-              { num: '30m', label: 'Update' },
-              { num: '6', label: 'Alert Types' },
-              { num: '13', label: 'Regions' },
+              { num: '8+', label: 'Shahar' },
+              { num: '30d', label: 'Yangilanish' },
+              { num: '6', label: 'Ogohlantirish' },
+              { num: '13', label: 'Viloyat' },
             ].map((s) => (
               <View key={s.label} style={styles.stat}>
                 <Text style={[styles.statNum, { color: colors.primary }]}>{s.num}</Text>
