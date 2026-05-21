@@ -12,7 +12,7 @@
 
 ## Loyihaning tuzilishi
 
-- artifacts/api-server — Express backend va AI chat rutlari.
+- artworks/artifacts/api-server — Express backend va AI chat rutlari.
 - artifacts/mobile — Expo mobil ilova va UI komponentlar.
 - artifacts/mockup-sandbox — UI sandbox va demo interfeys.
 - lib/db — Drizzle ORM + PostgreSQL konfiguratsiyasi.
@@ -42,6 +42,9 @@
 - Android uchun mobil ilovani moslash.
 - Map qo‘shish va heatmap funksiyasini yaratish.
 - Qolgan API’larni ulanib, real ma’lumot oqimini yo‘lga qo‘yish.
+- Wearable qurilmalar (Whoop / Google Fit / Apple Health / FitBit) bilan integratsiya.
+- Foydalanuvchi sog‘liq signalini (yurak urishi, uyqu, tiklanish) AQI/UV bilan birlashtirish.
+- “Havo iflos + yurak urishi/uyqu” kabi shaxsiy maslahatlar tizimini ishlab chiqish.
 
 ## Eslatma
 
