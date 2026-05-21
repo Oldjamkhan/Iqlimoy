@@ -14,15 +14,15 @@ function NativeTabLayout() {
     <NativeTabs>
       <NativeTabs.Trigger name="index">
         <Icon sf={{ default: "house", selected: "house.fill" }} />
-        <Label>Home</Label>
+        <Label>Bosh</Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="map">
         <Icon sf={{ default: "map", selected: "map.fill" }} />
-        <Label>Map</Label>
+        <Label>Xarita</Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="alerts">
         <Icon sf={{ default: "bell", selected: "bell.fill" }} />
-        <Label>Alerts</Label>
+        <Label>Xabar</Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="assistant">
         <Icon sf={{ default: "brain", selected: "brain.fill" }} />
@@ -30,7 +30,7 @@ function NativeTabLayout() {
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="explore">
         <Icon sf={{ default: "safari", selected: "safari.fill" }} />
-        <Label>Explore</Label>
+        <Label>Ko'proq</Label>
       </NativeTabs.Trigger>
     </NativeTabs>
   );
@@ -79,7 +79,7 @@ function ClassicTabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: "Bosh",
           tabBarIcon: ({ color }) =>
             isIOS ? (
               <SymbolView name="house" tintColor={color} size={22} />
@@ -91,7 +91,7 @@ function ClassicTabLayout() {
       <Tabs.Screen
         name="map"
         options={{
-          title: "Map",
+          title: "Xarita",
           tabBarIcon: ({ color }) =>
             isIOS ? (
               <SymbolView name="map" tintColor={color} size={22} />
@@ -103,7 +103,7 @@ function ClassicTabLayout() {
       <Tabs.Screen
         name="alerts"
         options={{
-          title: "Alerts",
+          title: "Xabar",
           tabBarIcon: ({ color }) =>
             isIOS ? (
               <SymbolView name="bell" tintColor={color} size={22} />
@@ -127,7 +127,7 @@ function ClassicTabLayout() {
       <Tabs.Screen
         name="explore"
         options={{
-          title: "Explore",
+          title: "Ko'proq",
           tabBarIcon: ({ color }) =>
             isIOS ? (
               <SymbolView name="safari" tintColor={color} size={22} />

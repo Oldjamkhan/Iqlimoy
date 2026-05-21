@@ -28,6 +28,7 @@ function RootLayoutNav() {
       <Stack.Screen name="b2b" options={{ headerShown: false, presentation: 'card' }} />
       <Stack.Screen name="construction" options={{ headerShown: false, presentation: 'card' }} />
       <Stack.Screen name="forecast" options={{ headerShown: false, presentation: 'card' }} />
+      <Stack.Screen name="guide" options={{ headerShown: false, presentation: 'card' }} />
     </Stack>
   );
 }

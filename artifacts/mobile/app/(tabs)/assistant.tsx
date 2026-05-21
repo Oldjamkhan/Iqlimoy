@@ -26,7 +26,7 @@ const QUICK_ACTIONS = [
   { label: 'Orol dengizi', key: 'aral' },
 ];
 
-const WELCOME_TEXT = "Assalomu alaykum! Men ZARA — Iqlimoy sun'iy yo'ldosh ekologiya monitoring tizimining AI yordamchisiman. Havo sifati, UV nurlanish, chang bo'ronlari, geomagnetik faollik va iqlim xavflari haqida yordam bera olaman. Nima so'ramoqchisiz?";
+const WELCOME_TEXT = "Assalomu alaykum! Men Iqlimoy AI — O'zbekiston sun'iy yo'ldosh ekologiya monitoring tizimining yordamchisiman. Havo sifati, UV nurlanish, chang bo'ronlari, geomagnetik faollik va iqlim xavflari haqida yordam bera olaman. Nima so'ramoqchisiz?";
 
 function generateId(): string {
   return Date.now().toString() + Math.random().toString(36).substring(2, 9);
@@ -124,13 +124,13 @@ export default function AssistantScreen() {
       <View style={[styles.header, { paddingTop: topPad + 12, backgroundColor: colors.background, borderBottomColor: colors.border }]}>
         <View style={styles.headerLeft}>
           <View style={[styles.avatar, { backgroundColor: colors.primary + '20', borderColor: colors.primary + '50' }]}>
-            <Text style={[styles.avatarText, { color: colors.primary }]}>Z</Text>
+            <Text style={[styles.avatarText, { color: colors.primary }]}>I</Text>
             <View style={[styles.onlineDot, { backgroundColor: colors.good }]} />
           </View>
           <View>
-            <Text style={[styles.botName, { color: colors.foreground }]}>ZARA</Text>
+            <Text style={[styles.botName, { color: colors.foreground }]}>Iqlimoy AI</Text>
             <Text style={[styles.botDesc, { color: isTyping ? colors.moderate : colors.good }]}>
-              {isTyping ? 'Sun\'iy yo\'ldosh ma\'lumotlari tahlil qilinmoqda...' : 'AI Ekologiya Yordamchisi · Gemini'}
+              {isTyping ? 'Ma\'lumotlar tahlil qilinmoqda...' : 'Sun\'iy yo\'ldosh ekologiya yordamchisi'}
             </Text>
           </View>
         </View>
@@ -171,7 +171,7 @@ export default function AssistantScreen() {
           isTyping ? (
             <View style={styles.typingRow}>
               <View style={[styles.typingAvatar, { backgroundColor: colors.primary + '20' }]}>
-                <Text style={[styles.typingAvatarText, { color: colors.primary }]}>Z</Text>
+                <Text style={[styles.typingAvatarText, { color: colors.primary }]}>I</Text>
               </View>
               <View style={[styles.typingBubble, { backgroundColor: colors.card, borderColor: colors.border }]}>
                 <View style={styles.typingDots}>

@@ -77,17 +77,25 @@ export default function HomeScreen() {
             <Feather name="radio" size={12} color={colors.primary} />
             <Text style={[styles.liveLabel, { color: colors.primary }]}>JONLI SUN'IY YO'LDOSH</Text>
           </View>
-          <TouchableOpacity
-            style={[styles.notifBtn, { backgroundColor: colors.card + 'AA' }]}
-            onPress={() => router.push('/alerts' as any)}
-          >
-            <Feather name="bell" size={18} color={colors.foreground} />
-            {activeAlertCount > 0 && (
-              <View style={[styles.badge, { backgroundColor: colors.veryUnhealthy }]}>
-                <Text style={styles.badgeText}>{activeAlertCount}</Text>
-              </View>
-            )}
-          </TouchableOpacity>
+          <View style={styles.headerButtons}>
+            <TouchableOpacity
+              style={[styles.notifBtn, { backgroundColor: colors.card + 'AA' }]}
+              onPress={() => router.push('/guide' as any)}
+            >
+              <Feather name="help-circle" size={18} color={colors.foreground} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.notifBtn, { backgroundColor: colors.card + 'AA' }]}
+              onPress={() => router.push('/alerts' as any)}
+            >
+              <Feather name="bell" size={18} color={colors.foreground} />
+              {activeAlertCount > 0 && (
+                <View style={[styles.badge, { backgroundColor: colors.veryUnhealthy }]}>
+                  <Text style={styles.badgeText}>{activeAlertCount}</Text>
+                </View>
+              )}
+            </TouchableOpacity>
+          </View>
         </View>
 
         <TouchableOpacity
@@ -298,6 +306,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter_700Bold',
     fontSize: 10,
     letterSpacing: 1.5,
+  },
+  headerButtons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
   },
   notifBtn: {
     width: 36,
