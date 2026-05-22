@@ -1,5 +1,3 @@
-Loyihangiz uchun tayyorlangan va barcha texnik qismlarni, arxitekturani hamda rejalarni o‘z ichiga olgan mukammal README.md fayli. Uni to‘g‘ridan-to‘g‘ri loyihangizning ildiz (root) papkasiga joylashtirishingiz mumkin.
-```markdown
 # Iqlimoy 🌍🛰️
 
 O‘zbekiston uchun sun‘iy yo‘ldosh va biometrik ma’lumotlar asosidagi ekologik monitoring platformasi.
