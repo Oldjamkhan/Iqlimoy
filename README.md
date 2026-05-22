@@ -12,6 +12,7 @@ O‘zbekiston uchun sun‘iy yo‘ldosh va biometrik ma’lumotlar asosidagi eko
 * **AI Ekologik Yordamchi:** Sun'iy intellekt (Gemini API) asosida foydalanuvchi joylashgan hudud va uning salomatligiga moslashtirilgan qisqa, aniq va hayotiy tavsiyalar.
 * **Biometrik Integratsiya (Eco-Health):** Wearable qurilmalar (Whoop, Google Fit, Apple Health, FitBit) bilan ulanish orqali yurak urishi (RHR), uyqu sifati va tiklanish (recovery) ko'rsatkichlarini havo sifati bilan sinxron tahlil qilish.
 * **Vizual Heatmap:** Hududlardagi ekologik holatni ko'rsatuvchi interaktiv xarita va issiqlik xaritasi (Heatmap) funksiyasi.
+* **Aqlli Bildirishnomalar:** "Havo iflosligi + Yurak urishi/Uyqu" ssenariylari bo'yicha foydalanuvchini faol ravishda himoya qiluvchi shaxsiy bildirishnomalar tizimi.
 * **Offline-First Tizim:** Internet aloqasi barqaror bo'lmagan hududlarda ham kesh ma'lumotlari orqali ishlash imkoniyati.
 
 ---
@@ -60,14 +61,18 @@ GEMINI_API_KEY=your_gemini_api_key_here
 
 ```
 ## 🚀 Ishlash Rejasi va Yo'l Xaritasi (Roadmap)
-### Done (Bajarilgan ishlar) ✅
+### Bajarilgan ishlar (Done) ✅
  * [x] Monorepo (pnpm) tuzilishi va arxitektura tahlili.
  * [x] Backend (Express) va Frontend (Expo) asosiy strukturasini qurish.
  * [x] Drizzle ORM orqali PostgreSQL bazasi konfiguratsiyasi.
  * [x] AI yordamchi va mock-data monitoring interfeyslarini yaratish.
-### In Progress / Todo (Kelgusi rejalar) 🛠️
- * [ ] Mobil ilovani Android platformasi uchun to'liq optimallashtirish.
- * [ ] Xarita (Map) integratsiyasi va hududiy Heatmap funksiyasini ishga tushirish.
- * [ ] Real sun'iy yo'ldosh va stansiya API'larini ulab, ma'lumotlar oqimini yo'lga qo'yish.
- * [ ] Taqiladigan qurilmalar (Whoop, FitBit, Apple Health) API integratsiyasi.
- * [ ] "Havo iflosligi + Yurak urishi/Uyqu" ssenariylari bo'yicha shaxsiy aqlli bildirishnomalar tizimini yaratish.
+ * [x] Mobil ilovani Android platformasi uchun to'liq optimallashtirish.
+ * [x] Xarita (Map) integratsiyasi va hududiy Heatmap (issiqlik xaritasi) funksiyasini ishga tushirish.
+ * [x] Real sun'iy yo'ldosh va stansiya API'larini ulab, jonli ma'lumotlar oqimini yo'lga qo'yish.
+ * [x] Taqiladigan qurilmalar (Whoop, FitBit, Apple Health, Google Fit) API integratsiyasi.
+ * [x] "Havo iflosligi + Yurak urishi/Uyqu" ssenariylari bo'yicha shaxsiy aqlli bildirishnomalar tizimini yaratish.
+### Kelgusi kengaytirish rejalari (Next Milestones) 🎯
+ * [ ] **Keshni optimallashtirish:** Katta hajmdagi geografik va heatmap ma'lumotlarini tezkor qayta ishlash uchun Redis kesh tizimini backendga qo'shish.
+ * [ ] **CI/CD va Avtomatlashtirish:** GitHub Actions yordamida avtomatik testlar va mobil ilovani EAS (Expo Application Services) orqali build qilish tizimini sozlash.
+ * [ ] **噴 Tizimni masshtablash:** Ma'lumotlar bazasida vaqtga bog'liq (time-series) ekologik ko'rsatkichlarni PostGIS yordamida yanada samaraliroq indekslash.
+ * [ ] **Ko'p tillilik (i18n):** Ilovaga to'liq o'zbek (lotin/kirill), ingliz va rus tillarini integratsiya qilish```
