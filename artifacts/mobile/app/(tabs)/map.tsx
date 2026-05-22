@@ -12,7 +12,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AQIBadge } from '@/components/AQIBadge';
-import { RegionMap } from '@/components/RegionMap';
+import { UzbekistanMap } from '@/components/UzbekistanMap';
 import { CITIES, getAQILabel, getAQILevel } from '@/constants/demoData';
 import { useColors } from '@/hooks/useColors';
 
@@ -38,12 +38,34 @@ export default function MapScreen() {
       </View>
 
       <View style={styles.content}>
-        <RegionMap
-          onRegionPress={(id) => {
+        <UzbekistanMap
+          height={340}
+          onCityPress={(id) => {
             const city = CITIES.find((c) => c.id === id);
             if (city) router.push(`/city/${city.id}` as any);
           }}
         />
+
+        <View style={[styles.legendCard, { backgroundColor: colors.card, borderColor: colors.border }]}>
+          <Text style={[styles.legendTitle, { color: colors.mutedForeground }]}>AQI DARAJALARI</Text>
+          <View style={styles.legendRow}>
+            {[
+              { color: colors.good, label: 'Yaxshi', range: '0–50' },
+              { color: colors.moderate, label: "O'rtacha", range: '51–100' },
+              { color: colors.unhealthy, label: 'Zararli', range: '101–150' },
+              { color: colors.veryUnhealthy, label: 'J.Zararli', range: '151–200' },
+              { color: colors.hazardous, label: 'Xavfli', range: '200+' },
+            ].map((item) => (
+              <View key={item.label} style={styles.legendItem}>
+                <View style={[styles.legendDot, { backgroundColor: item.color }]} />
+                <View>
+                  <Text style={[styles.legendLabel, { color: colors.foreground }]}>{item.label}</Text>
+                  <Text style={[styles.legendRange, { color: colors.mutedForeground }]}>{item.range}</Text>
+                </View>
+              </View>
+            ))}
+          </View>
+        </View>
 
         <Text style={[styles.sectionTitle, { color: colors.mutedForeground }]}>HAVO SIFATI BO'YICHA SHAHARLAR</Text>
 
@@ -51,11 +73,8 @@ export default function MapScreen() {
           {sortedCities.map((city, idx) => {
             const level = getAQILevel(city.aqi);
             const aqiColors: Record<string, string> = {
-              good: colors.good,
-              moderate: colors.moderate,
-              unhealthy: colors.unhealthy,
-              veryUnhealthy: colors.veryUnhealthy,
-              hazardous: colors.hazardous,
+              good: colors.good, moderate: colors.moderate, unhealthy: colors.unhealthy,
+              veryUnhealthy: colors.veryUnhealthy, hazardous: colors.hazardous,
             };
             const ac = aqiColors[level];
             return (
@@ -108,122 +127,40 @@ export default function MapScreen() {
 const styles = StyleSheet.create({
   root: { flex: 1 },
   header: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    zIndex: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingBottom: 12,
-    paddingTop: 12,
-    borderBottomWidth: 1,
+    position: 'absolute', left: 0, right: 0, zIndex: 10,
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    paddingHorizontal: 20, paddingBottom: 12, paddingTop: 12, borderBottomWidth: 1,
   },
-  title: {
-    fontFamily: 'Inter_700Bold',
-    fontSize: 22,
-  },
-  satBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 8,
-  },
-  satText: {
-    fontFamily: 'Inter_700Bold',
-    fontSize: 10,
-    letterSpacing: 1,
-  },
-  content: {
-    padding: 16,
-    gap: 14,
-  },
-  sectionTitle: {
-    fontFamily: 'Inter_600SemiBold',
-    fontSize: 11,
-    letterSpacing: 1.2,
-    marginTop: 6,
-  },
-  cityList: {
-    gap: 8,
-  },
+  title: { fontFamily: 'Inter_700Bold', fontSize: 22 },
+  satBadge: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 8 },
+  satText: { fontFamily: 'Inter_700Bold', fontSize: 10, letterSpacing: 1 },
+  content: { padding: 16, gap: 14 },
+  legendCard: { borderRadius: 14, borderWidth: 1, padding: 12, gap: 10 },
+  legendTitle: { fontFamily: 'Inter_600SemiBold', fontSize: 10, letterSpacing: 1 },
+  legendRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
+  legendItem: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  legendDot: { width: 10, height: 10, borderRadius: 5 },
+  legendLabel: { fontFamily: 'Inter_500Medium', fontSize: 11 },
+  legendRange: { fontFamily: 'Inter_400Regular', fontSize: 10 },
+  sectionTitle: { fontFamily: 'Inter_600SemiBold', fontSize: 11, letterSpacing: 1.2, marginTop: 4 },
+  cityList: { gap: 8 },
   cityRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 14,
-    borderRadius: 14,
-    borderWidth: 1,
-    borderLeftWidth: 3,
-    gap: 10,
+    flexDirection: 'row', alignItems: 'center', padding: 14, borderRadius: 14,
+    borderWidth: 1, borderLeftWidth: 3, gap: 10,
   },
-  cityRank: {
-    width: 24,
-    alignItems: 'center',
-  },
-  rankNum: {
-    fontFamily: 'Inter_400Regular',
-    fontSize: 12,
-  },
-  cityInfo: {
-    flex: 1,
-  },
-  cityName: {
-    fontFamily: 'Inter_600SemiBold',
-    fontSize: 14,
-  },
-  cityRegion: {
-    fontFamily: 'Inter_400Regular',
-    fontSize: 11,
-    marginTop: 2,
-  },
-  cityMetrics: {
-    alignItems: 'flex-end',
-    gap: 2,
-  },
-  cityCondition: {
-    fontFamily: 'Inter_400Regular',
-    fontSize: 11,
-  },
-  cityTemp: {
-    fontFamily: 'Inter_600SemiBold',
-    fontSize: 13,
-  },
-  infoCard: {
-    borderRadius: 14,
-    borderWidth: 1,
-    padding: 16,
-    gap: 10,
-  },
-  infoHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  infoTitle: {
-    fontFamily: 'Inter_600SemiBold',
-    fontSize: 14,
-  },
-  infoText: {
-    fontFamily: 'Inter_400Regular',
-    fontSize: 12,
-    lineHeight: 18,
-  },
-  sourceRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 6,
-  },
-  sourcePill: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 6,
-    borderWidth: 1,
-  },
-  sourceText: {
-    fontFamily: 'Inter_500Medium',
-    fontSize: 11,
-  },
+  cityRank: { width: 24, alignItems: 'center' },
+  rankNum: { fontFamily: 'Inter_400Regular', fontSize: 12 },
+  cityInfo: { flex: 1 },
+  cityName: { fontFamily: 'Inter_600SemiBold', fontSize: 14 },
+  cityRegion: { fontFamily: 'Inter_400Regular', fontSize: 11, marginTop: 2 },
+  cityMetrics: { alignItems: 'flex-end', gap: 2 },
+  cityCondition: { fontFamily: 'Inter_400Regular', fontSize: 11 },
+  cityTemp: { fontFamily: 'Inter_600SemiBold', fontSize: 13 },
+  infoCard: { borderRadius: 14, borderWidth: 1, padding: 16, gap: 10 },
+  infoHeader: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  infoTitle: { fontFamily: 'Inter_600SemiBold', fontSize: 14 },
+  infoText: { fontFamily: 'Inter_400Regular', fontSize: 12, lineHeight: 18 },
+  sourceRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
+  sourcePill: { paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6, borderWidth: 1 },
+  sourceText: { fontFamily: 'Inter_500Medium', fontSize: 11 },
 });

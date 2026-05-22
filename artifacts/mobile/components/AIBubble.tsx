@@ -29,10 +29,10 @@ export function AIBubble({ message }: AIBubbleProps) {
   return (
     <View style={styles.botRow}>
       <View style={[styles.botAvatar, { backgroundColor: colors.primary + '20', borderColor: colors.primary + '40' }]}>
-        <Text style={[styles.avatarText, { color: colors.primary }]}>Z</Text>
+        <Text style={[styles.avatarText, { color: colors.primary }]}>I</Text>
       </View>
       <View style={styles.botContent}>
-        <Text style={[styles.botName, { color: colors.primary }]}>ZARA</Text>
+        <Text style={[styles.botName, { color: colors.primary }]}>IQLIMOY AI</Text>
         <View style={[styles.botBubble, { backgroundColor: colors.card, borderColor: colors.border }]}>
           <Text style={[styles.botText, { color: colors.foreground }]}>{message.text}</Text>
         </View>
