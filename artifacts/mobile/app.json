@@ -17,7 +17,17 @@
       "supportsTablet": false
     },
     "android": {
-      "backgroundColor": "#070D1B"
+      "package": "com.oldjamkhan.iqlimoy",
+      "backgroundColor": "#070D1B",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/icon.png",
+        "backgroundColor": "#070D1B"
+      },
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "FOREGROUND_SERVICE"
+      ]
     },
     "web": {
       "favicon": "./assets/images/icon.png"
