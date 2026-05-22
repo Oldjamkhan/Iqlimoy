@@ -17,6 +17,19 @@ import { AIBubble } from '@/components/AIBubble';
 import { ChatMessage, useApp } from '@/context/AppContext';
 import { useColors } from '@/hooks/useColors';
 
+const CONDITION_LABELS: Record<string, string> = {
+  asthma: 'Astma/Bronxit',
+  heart: 'Yurak kasalligi',
+  hypertension: 'Qon bosimi yuqori',
+  pregnant: 'Homilador',
+  children: 'Kichik bolalar',
+  elderly: 'Keksa odam',
+  allergy: 'Allergiya',
+  eyes: "Ko'z kasalligi",
+  diabetes: 'Diabet',
+  skin: 'Teri kasalligi',
+};
+
 const QUICK_ACTIONS = [
   { label: 'Joriy AQI', key: 'aqi' },
   { label: 'Eng yaxshi vaqt', key: 'outdoor' },
@@ -37,12 +50,13 @@ const BASE_URL = process.env.EXPO_PUBLIC_DOMAIN
   : '';
 
 async function callGeminiAPI(
-  history: { role: 'user' | 'model'; text: string }[]
+  history: { role: 'user' | 'model'; text: string }[],
+  healthContext?: string
 ): Promise<string> {
   const res = await fetch(`${BASE_URL}/api/chat`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ messages: history }),
+    body: JSON.stringify({ messages: history, healthContext }),
   });
   if (!res.ok) {
     throw new Error(`Server xatosi: ${res.status}`);
@@ -57,7 +71,7 @@ export default function AssistantScreen() {
   const insets = useSafeAreaInsets();
   const topPad = Platform.OS === 'web' ? Math.max(insets.top, 67) : insets.top;
   const bottomPad = Platform.OS === 'web' ? 34 : insets.bottom;
-  const { chatMessages, addMessage, clearChat } = useApp();
+  const { chatMessages, addMessage, clearChat, healthProfile } = useApp();
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -100,7 +114,18 @@ export default function AssistantScreen() {
 
     try {
       const history = buildHistory(text.trim());
-      const aiText = await callGeminiAPI(history);
+      const healthParts: string[] = [];
+      if (healthProfile.name) healthParts.push(`Ism: ${healthProfile.name}`);
+      if (healthProfile.ageGroup) {
+        const ageLabels: Record<string, string> = { child: '0-12 yosh', teen: '13-17 yosh', adult: '18-44 yosh', middle: '45-64 yosh', senior: '65+ yosh' };
+        healthParts.push(`Yosh guruhi: ${ageLabels[healthProfile.ageGroup] ?? healthProfile.ageGroup}`);
+      }
+      if (healthProfile.conditions.length > 0) {
+        const labels = healthProfile.conditions.map((c) => CONDITION_LABELS[c] ?? c);
+        healthParts.push(`Sog'liq holatlari: ${labels.join(', ')}`);
+      }
+      const healthContext = healthParts.length > 0 ? healthParts.join('\n') : undefined;
+      const aiText = await callGeminiAPI(history, healthContext);
       const aiMsg: ChatMessage = {
         id: generateId(),
         text: aiText,

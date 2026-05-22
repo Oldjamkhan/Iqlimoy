@@ -29,6 +29,7 @@ function RootLayoutNav() {
       <Stack.Screen name="construction" options={{ headerShown: false, presentation: 'card' }} />
       <Stack.Screen name="forecast" options={{ headerShown: false, presentation: 'card' }} />
       <Stack.Screen name="guide" options={{ headerShown: false, presentation: 'card' }} />
+      <Stack.Screen name="health-profile" options={{ headerShown: false, presentation: 'card' }} />
     </Stack>
   );
 }

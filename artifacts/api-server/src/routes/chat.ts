@@ -3,7 +3,7 @@ import { Router } from "express";
 
 const router = Router();
 
-const SYSTEM_PROMPT = `Siz Iqlimoy AI — Iqlimoy platformasining sun'iy intellekt yordamchisisiz. Iqlimoy O'zbekiston va Markaziy Osiyoning sun'iy yo'ldosh ekologik monitoring tizimi. O'zingizni hech qachon "ZARA" deb atamang — siz faqat "Iqlimoy AI" siz.
+const BASE_SYSTEM_PROMPT = `Siz Iqlimoy AI — Iqlimoy platformasining sun'iy intellekt yordamchisisiz. Iqlimoy O'zbekiston va Markaziy Osiyoning sun'iy yo'ldosh ekologik monitoring tizimi. O'zingizni hech qachon "ZARA" deb atamang — siz faqat "Iqlimoy AI" siz.
 
 Siz faqat quyidagi mavzular bo'yicha yordam berasiz:
 - Havo sifati (AQI, PM2.5, PM10)
@@ -34,6 +34,7 @@ Faol ogohlantirishlar:
 Qoidalar:
 - Har doim O'ZBEK tilida javob bering
 - Qisqa, aniq va foydali bo'ling (3-5 jumla)
+- Foydalanuvchining sog'liq holati bo'lsa — maslahatni unga moslashtiring
 - Faqat ekologiya, havo sifati va iqlim mavzularida javob bering
 - Boshqa mavzularda: "Men faqat ekologiya va havo sifati bo'yicha yordam bera olaman" deb ayting
 - Raqamlar va statistikadan foydalaning`;
@@ -45,14 +46,19 @@ router.post("/chat", async (req, res) => {
     return;
   }
 
-  const { messages } = req.body as {
+  const { messages, healthContext } = req.body as {
     messages: { role: "user" | "model"; text: string }[];
+    healthContext?: string;
   };
 
   if (!messages || !Array.isArray(messages) || messages.length === 0) {
     res.status(400).json({ error: "messages massivi talab qilinadi" });
     return;
   }
+
+  const systemPrompt = healthContext
+    ? `${BASE_SYSTEM_PROMPT}\n\nFOYDALANUVCHI SOG'LIQ PROFILI:\n${healthContext}\nMaslahat berganingizda ushbu holatlarni hisobga oling va aniq, shaxsiy tavsiyalar bering.`
+    : BASE_SYSTEM_PROMPT;
 
   try {
     const ai = new GoogleGenAI({ apiKey });
@@ -66,7 +72,7 @@ router.post("/chat", async (req, res) => {
       model: "gemini-2.5-flash",
       contents,
       config: {
-        systemInstruction: SYSTEM_PROMPT,
+        systemInstruction: systemPrompt,
         maxOutputTokens: 8192,
       },
     });

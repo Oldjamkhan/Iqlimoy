@@ -20,7 +20,7 @@ export default function ExploreScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const topPad = Platform.OS === 'web' ? Math.max(insets.top, 67) : insets.top;
-  const { selectedCity } = useApp();
+  const { selectedCity, healthProfile } = useApp();
 
   const activityScore = Math.max(0, 100 - selectedCity.aqi * 0.5 - selectedCity.dustRisk * 0.3 - selectedCity.uvIndex * 2);
   const scoreColor = activityScore >= 70 ? colors.good : activityScore >= 40 ? colors.moderate : colors.unhealthy;
@@ -32,7 +32,7 @@ export default function ExploreScreen() {
       showsVerticalScrollIndicator={false}
     >
       <View style={[styles.header, { top: topPad, backgroundColor: colors.background + 'EE', borderBottomColor: colors.border }]}>
-        <Text style={[styles.title, { color: colors.foreground }]}>Explore</Text>
+        <Text style={[styles.title, { color: colors.foreground }]}>Ko'proq</Text>
       </View>
 
       <View style={styles.content}>
@@ -67,6 +67,35 @@ export default function ExploreScreen() {
                 : "Bugun yomon sharoit. Ichki mashg'ulotlarni afzal ko'ring yoki toza havo bor shaharga boring."}
           </Text>
         </View>
+
+        <TouchableOpacity
+          style={[styles.healthCard, {
+            backgroundColor: healthProfile.conditions.length > 0 ? colors.primary + '10' : colors.card,
+            borderColor: healthProfile.conditions.length > 0 ? colors.primary + '40' : colors.border,
+          }]}
+          onPress={() => router.push('/health-profile' as any)}
+          activeOpacity={0.75}
+        >
+          <View style={[styles.healthIcon, {
+            backgroundColor: healthProfile.conditions.length > 0 ? colors.primary + '20' : colors.secondary,
+          }]}>
+            <Feather name="heart" size={20} color={healthProfile.conditions.length > 0 ? colors.primary : colors.mutedForeground} />
+          </View>
+          <View style={styles.healthText}>
+            <Text style={[styles.healthTitle, { color: colors.foreground }]}>Sog'liq Profili</Text>
+            <Text style={[styles.healthDesc, { color: colors.mutedForeground }]}>
+              {healthProfile.conditions.length > 0
+                ? `${healthProfile.conditions.length} ta holat • Iqlimoy AI shaxsiy maslahat beradi`
+                : 'Profil to\'ldirilmagan — AI shaxsiy maslahat bera olmaydi'}
+            </Text>
+          </View>
+          <View style={[styles.healthArrow, {
+            backgroundColor: healthProfile.conditions.length > 0 ? colors.primary + '15' : colors.secondary,
+          }]}>
+            <Feather name={healthProfile.conditions.length > 0 ? 'edit-2' : 'plus'} size={14}
+              color={healthProfile.conditions.length > 0 ? colors.primary : colors.mutedForeground} />
+          </View>
+        </TouchableOpacity>
 
         <View style={styles.actionRow}>
           <TouchableOpacity
@@ -178,6 +207,33 @@ const styles = StyleSheet.create({
   content: {
     padding: 16,
     gap: 14,
+  },
+  healthCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 14,
+    borderWidth: 1,
+    padding: 14,
+    gap: 12,
+  },
+  healthIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+  },
+  healthText: { flex: 1 },
+  healthTitle: { fontFamily: 'Inter_600SemiBold', fontSize: 15 },
+  healthDesc: { fontFamily: 'Inter_400Regular', fontSize: 12, marginTop: 2 },
+  healthArrow: {
+    width: 30,
+    height: 30,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
   },
   activityCard: {
     borderRadius: 16,

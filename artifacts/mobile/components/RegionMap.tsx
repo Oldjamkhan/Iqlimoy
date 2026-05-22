@@ -7,10 +7,10 @@ import { useColors } from '@/hooks/useColors';
 export type MapLayer = 'aqi' | 'temp' | 'uv' | 'dust';
 
 const LAYER_LABELS: Record<MapLayer, string> = {
-  aqi: 'Air Quality',
-  temp: 'Temperature',
-  uv: 'UV Index',
-  dust: 'Dust Risk',
+  aqi: 'Havo Sifati',
+  temp: 'Harorat',
+  uv: 'UV Indeks',
+  dust: 'Chang Xavfi',
 };
 
 const TEMP_DATA: Record<string, number> = {
@@ -90,6 +90,22 @@ export function RegionMap({ onRegionPress }: RegionMapProps) {
     rows[r.gridRow].push(r);
   });
 
+  const legendItems =
+    activeLayer === 'aqi'
+      ? [
+          { color: colors.good, label: 'Yaxshi' },
+          { color: colors.moderate, label: "O'rtacha" },
+          { color: colors.unhealthy, label: 'Zararli' },
+          { color: colors.veryUnhealthy, label: 'J. Zararli' },
+          { color: colors.hazardous, label: 'Xavfli' },
+        ]
+      : [
+          { color: colors.good, label: 'Past' },
+          { color: colors.moderate, label: "O'rtacha" },
+          { color: colors.unhealthy, label: 'Yuqori' },
+          { color: colors.hazardous, label: 'Ekstremal' },
+        ];
+
   return (
     <View style={styles.container}>
       <View style={[styles.layerBar, { backgroundColor: colors.card, borderColor: colors.border }]}>
@@ -140,23 +156,9 @@ export function RegionMap({ onRegionPress }: RegionMapProps) {
         ))}
 
         <View style={[styles.legend, { borderTopColor: colors.border }]}>
-          {activeLayer === 'aqi' && (
-            <>
-              <LegendItem color={colors.good} label="Good" />
-              <LegendItem color={colors.moderate} label="Moderate" />
-              <LegendItem color={colors.unhealthy} label="Unhealthy" />
-              <LegendItem color={colors.veryUnhealthy} label="Very Unhealthy" />
-              <LegendItem color={colors.hazardous} label="Hazardous" />
-            </>
-          )}
-          {activeLayer !== 'aqi' && (
-            <>
-              <LegendItem color={colors.good} label="Low" />
-              <LegendItem color={colors.moderate} label="Moderate" />
-              <LegendItem color={colors.unhealthy} label="High" />
-              <LegendItem color={colors.hazardous} label="Extreme" />
-            </>
-          )}
+          {legendItems.map((item) => (
+            <LegendItem key={item.label} color={item.color} label={item.label} />
+          ))}
         </View>
       </View>
     </View>
